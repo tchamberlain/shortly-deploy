@@ -6,13 +6,13 @@ module.exports = function(grunt) {
     },
 
     gitpush: {
-      your_target: {
+      // your_target: {
         options: {
           remote: 'live',
           branch: 'master',
           all: true
         }
-      }
+      // }
     },
 
     mochaTest: {
