@@ -4,14 +4,17 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     concat: {
     },
+
     gitpush: {
       your_target: {
         options: {
           remote: 'live',
-          branch: 'master'
+          branch: 'master',
+          all: true
         }
       }
     },
+
     mochaTest: {
       test: {
         options: {
@@ -70,7 +73,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
-  grunt.loadNpmTasks('grunt-gitpush');
+  grunt.loadNpmTasks('grunt-git');
 
   grunt.registerTask('server-dev', function (target) {
     // Running nodejs in a different process and displaying output on the main console
@@ -96,6 +99,10 @@ module.exports = function(grunt) {
   ////////////////////////////////////////////////////
   // Main grunt tasks
   ////////////////////////////////////////////////////
+
+  grunt.registerTask('gitpush', [
+    'gitpush'
+  ]);
 
   grunt.registerTask('test', [
     'mochaTest'
