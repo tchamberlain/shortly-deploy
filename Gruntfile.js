@@ -3,16 +3,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
-    },
 
-    gitpush: {
-      // your_target: {
-        options: {
-          remote: 'live',
-          branch: 'master',
-          all: true
-        }
-      // }
     },
 
     mochaTest: {
@@ -31,6 +22,11 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      my_target: {
+      files: {
+        'public/dist/uglified.js': ['server.js', 'server-config.js']
+      }
+    }
     },
 
     eslint: {
@@ -61,6 +57,7 @@ module.exports = function(grunt) {
 
     shell: {
       prodServer: {
+        command: "git push live master"
       }
     },
   });
@@ -73,7 +70,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
-  grunt.loadNpmTasks('grunt-git');
 
   grunt.registerTask('server-dev', function (target) {
     // Running nodejs in a different process and displaying output on the main console
@@ -88,40 +84,25 @@ module.exports = function(grunt) {
     grunt.task.run([ 'watch' ]);
   });
 
-
-  grunt.registerTask('upload', function(n) {
-    if (grunt.option('prod')) {
-      // add your production server task here
-    }
-    grunt.task.run([ 'server-dev' ]);
-  });
-
   ////////////////////////////////////////////////////
   // Main grunt tasks
   ////////////////////////////////////////////////////
 
-  grunt.registerTask('gitpush', [
-    'gitpush'
-  ]);
-
   grunt.registerTask('test', [
     'mochaTest'
   ]);
-
-  grunt.registerTask('build', [
-  ]);
+// 'eslint', 'concat', 'mochaTest'
+  grunt.registerTask('build', ['uglify']);
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
-      // add your production server task here
+      grunt.task.run(['shell']);
     } else {
-      grunt.task.run([ 'server-dev' ]);
+      grunt.task.run(['server-dev']);
     }
   });
 
-  grunt.registerTask('deploy', [
-    // add your deploy tasks here
-  ]);
+  grunt.registerTask('deploy', ['build', 'upload']);
 
 
 };
