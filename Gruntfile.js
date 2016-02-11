@@ -35,7 +35,7 @@ module.exports = function(grunt) {
 
     eslint: {
       target: [
-        // Add list of files to lint here
+        'public/client/*.js'
       ]
     },
 
@@ -84,7 +84,7 @@ module.exports = function(grunt) {
     });
     nodemon.stdout.pipe(process.stdout);
     nodemon.stderr.pipe(process.stderr);
-
+    //
     grunt.task.run([ 'watch' ]);
   });
 
@@ -95,8 +95,10 @@ module.exports = function(grunt) {
   grunt.registerTask('test', [
     'mochaTest'
   ]);
-// 'eslint', 'concat', 'mochaTest'
-  grunt.registerTask('build', ['concat','uglify']);
+
+  grunt.registerTask('default', 'watch');
+
+  grunt.registerTask('build', ['eslint','test','concat','uglify']);
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
