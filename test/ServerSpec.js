@@ -21,8 +21,10 @@ describe('', function() {
 
         // Delete objects from db so they can be created later for the test
         Link.remove({url: 'http://www.roflzoo.com/'}).exec();
+        console.log('did we make it?');
         User.remove({username: 'Savannah'}).exec();
         User.remove({username: 'Phillip'}).exec();
+        console.log('did we make it to here?');
 
         done();
       });
